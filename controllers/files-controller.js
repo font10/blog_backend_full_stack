@@ -1,8 +1,6 @@
 import { uploadImage, deleteImage } from '../cloudinary/cloudinary.js'
 
 export const uploadImages = async(req, res) => {
-  console.log(req.body)
-  console.log(req.file)
   try {
     const images = await uploadImage(req.file)
     res.status(200).json({ message: 'Image uploaded successfully', images })

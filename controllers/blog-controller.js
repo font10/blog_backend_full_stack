@@ -22,16 +22,14 @@ export const getBlogById = async(req, res) => {
 
 export const addBlog = async(req, res) => {
   try {
-    console.log(req.body)
     const blogAdd = new Blog(req.body)
-    console.log(1)
 
     if(!blogAdd) {
       return res.status(400).json({ message: 'Error creating blog' })
     }
-    console.log(2)
+
     const blog = await blogAdd.save();
-    console.log(3)
+    
     return res.status(201).json({ message: 'Blog created', blog })
   } catch (err) {
     return res.status(500).json({ message: err })
@@ -72,7 +70,7 @@ export const updateBlog = async(req, res) => {
 export const getLocationsByCountry = async(req, res) => {
   try {
     const countries = await Blog.find({ location: req.query.location })
-    console.log(countries)
+    
     if(!countries) return res.status(400).json({ message: 'Error finding blogs' })
 
     return res.status(201).json( countries )

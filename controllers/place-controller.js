@@ -20,18 +20,6 @@ export const getPlaceById = async(req, res) => {
   }  
 }
 
-export const getPlaceByName = async(req, res) => {
-  try {
-    console.log(req.params)
-    return
-    /*const blog = await Place.findById(id)
-
-    return res.status(200).json({ blog })*/
-  } catch (err) {
-    return res.status(500).json({ message: err })
-  }
-}
-
 export const addPlace = async(req, res) => {
   try {
     const placeAdd = new Place(req.body)

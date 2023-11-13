@@ -53,7 +53,7 @@ export const login = async(req, res, next) => {
     if(!comparePassword) {
       return res.status(400).json({ message: "Password incorrect" })
     }
-    console.log(process.env.JWT_SECRET)
+    
     const token = jwt.sign({ user: existingUser }, "secret", {
       expiresIn: "1d"
     })  

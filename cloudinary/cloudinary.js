@@ -14,7 +14,6 @@ export async function uploadImage(file) {
   let url = ''
   try {
     await cloudinary.uploader.upload(file.path).then(res => { 
-      console.log(res)
       url = { id: res.public_id, url: res.secure_url} 
       deleteImageFromMulter(file)
     })      
