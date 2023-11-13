@@ -16,7 +16,7 @@ const blogSchema = new mongoose.Schema({
     required: true,
     min: 12
   },
-  photo: {
+  image: {
     type: String,
     required: true
   },
@@ -24,18 +24,15 @@ const blogSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  featured: {
-    type: Boolean,
-    default: false,
+  country: {
+    type: String,
+    default: true,
   },
-  views: {
-    type: Number,
-    default: 0
+  place: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Place',
+    required: true,
   },
-  likes: {
-    type: [String],
-    default: [],
-  }
 }, { timestamps: true })
 
 export default mongoose.model("Blog", blogSchema)

@@ -2,19 +2,17 @@ import Blog from '../models/Blog.js'
 
 export const getAllBlogs = async(req, res) => {
   try {
-    const blogs = await Blog.find({})
+    const blogs = await Blog.find({}).populate('userId', '-password').populate('place')
     res.status(200).json({ blogs })
   } catch(err) {
     return res.status(500).json({ message: err })
   }
 }
 
-
-
 export const getBlogById = async(req, res) => {
   try {
     const id = req.params.id
-    const blog = await Blog.findById(id).populate('userId', '-password')
+    const blog = await Blog.findById(id).populate('userId', '-password').populate('place')
 
     return res.status(200).json({ blog })
   } catch (err) {
@@ -22,23 +20,19 @@ export const getBlogById = async(req, res) => {
   }
 }
 
-export const getFeatured = async(req, res) => {
-  try {
-    const blogs = await Blog.find({ featured: true }).populate("userId", '-password').limit(3)
-    return res.status(200).json(blogs)
-  } catch (error) {
-      return res.status(500).json(error)
-  }
-}
-
 export const addBlog = async(req, res) => {
   try {
+    console.log(req.body)
     const blogAdd = new Blog(req.body)
+    console.log(1)
+
     if(!blogAdd) {
       return res.status(400).json({ message: 'Error creating blog' })
     }
+    console.log(2)
     const blog = await blogAdd.save();
-    return res.status(201).json({ blog })
+    console.log(3)
+    return res.status(201).json({ message: 'Blog created', blog })
   } catch (err) {
     return res.status(500).json({ message: err })
   }
@@ -75,23 +69,29 @@ export const updateBlog = async(req, res) => {
   }
 }
 
-export const likeBlog = async(req, res) => {
+export const getLocationsByCountry = async(req, res) => {
   try {
-    const id = req.params.id
-    const blog = await Blog.findById(id)
-    console.log()
-    if(blog.likes.includes(id)){
-        blog.likes = blog.likes.filter((userId) => userId !== id)
-        await blog.save()
+    const countries = await Blog.find({ location: req.query.location })
+    console.log(countries)
+    if(!countries) return res.status(400).json({ message: 'Error finding blogs' })
 
-        return res.status(200).json({msg: 'Successfully unliked the blog'})
-    } else {
-        blog.likes.push(req.user.id)
-        await blog.save()
-
-        return res.status(200).json({msg: "Successfully liked the blog"})
-    }
+    return res.status(201).json( countries )
   } catch (err) {
-      return res.status(500).json({ message: err })
+    return res.status(500).json({ message: err })
   }
 }
+
+export const getBlogsByPlace = async(req, res) => {
+  try {
+    const blogsByPlace = await Blog.find({ place: req.params.place }).populate('place').populate('userId')
+
+    if(!blogsByPlace) {
+      return res.status(400).json({ message: 'Error getting blog' })
+    }
+
+    return res.status(201).json( blogsByPlace )
+  } catch (err) {
+    return res.status(500).json({ message: err })
+  }
+}
+
