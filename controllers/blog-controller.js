@@ -80,7 +80,6 @@ export const getLocationsByCountry = async(req, res) => {
 }
 
 export const getBlogsByPlace = async(req, res) => {
-  console.log(req.params)
   try {
     const blogsByPlace = await Blog.find({ place: req.params.place }).populate('place').populate('userId')
 
