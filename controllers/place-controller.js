@@ -11,6 +11,7 @@ export const getPlaces = async(req, res) => {
 
 export const getPlaceById = async(req, res) => {
   try {
+    console.log(req.params)
     const id = req.params.id
     const place = await Place.findById(id).populate('place')
 

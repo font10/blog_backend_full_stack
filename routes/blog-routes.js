@@ -6,7 +6,7 @@ const blogRouter = express.Router()
 
 blogRouter.get('/getAll', getAllBlogs)
 blogRouter.get('/:id', getBlogById)
-blogRouter.get('/:place', getBlogsByPlace)
+blogRouter.get('/place/:place', getBlogsByPlace)
 blogRouter.post('/', verifyToken, addBlog)
 blogRouter.put('/:id', verifyToken, updateBlog)
 blogRouter.delete('/:id', verifyToken, deleteBlog)
